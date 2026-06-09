@@ -1,0 +1,43 @@
+from __future__ import annotations
+
+from enum import Enum
+from datetime import datetime
+
+from sqlalchemy import Boolean, DateTime, Enum as SAEnum, Integer, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from app.db.base import Base
+
+
+class UserRole(str, Enum):
+    ADMIN = "ADMIN"
+    MEMBER = "MEMBER"
+
+
+class User(Base):
+    __tablename__ = "users"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    email: Mapped[str] = mapped_column(
+        String(255), unique=True, index=True, nullable=False
+    )
+    full_name: Mapped[str] = mapped_column(String(255), nullable=False)
+    hashed_password: Mapped[str] = mapped_column(String(255), nullable=False)
+    role: Mapped[UserRole] = mapped_column(
+        SAEnum(UserRole, name="user_role"),
+        nullable=False,
+        default=UserRole.MEMBER,
+    )
+    is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, default=datetime.utcnow
+    )
+
+    owned_workspaces: Mapped[list["Workspace"]] = relationship(
+        back_populates="owner",
+        foreign_keys="Workspace.owner_id",
+    )
+    workspace_memberships: Mapped[list["WorkspaceMember"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
