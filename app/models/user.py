@@ -7,6 +7,7 @@ from sqlalchemy import Boolean, DateTime, Enum as SAEnum, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
+from app.models.workspace import Workspace, WorkspaceMember
 
 
 class UserRole(str, Enum):

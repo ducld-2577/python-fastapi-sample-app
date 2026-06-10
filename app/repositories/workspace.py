@@ -16,7 +16,6 @@ class WorkspaceRepository(BaseRepository[Workspace]):
 
     async def get_workspaces(self, owner_id: int):
         from sqlalchemy import select
-        from sqlalchemy.orm import selectinload
 
         result = await self.session.execute(
             select(Workspace).where(Workspace.owner_id == owner_id)

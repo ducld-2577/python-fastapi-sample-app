@@ -7,4 +7,5 @@ class UserUpdate(BaseModel):
 
 class UserOut(BaseModel):
     id: int
-    name: str
+    email: str
+    full_name: str
