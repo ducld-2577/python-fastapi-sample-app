@@ -6,7 +6,6 @@ from fastapi import FastAPI
 async def lifespan(app: FastAPI):
     print("App starting...")
 
-    # TODO connect DB
     yield
 
     print("App shutting down...")
