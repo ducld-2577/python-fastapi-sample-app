@@ -2,12 +2,15 @@ from __future__ import annotations
 
 from enum import Enum
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import Boolean, DateTime, Enum as SAEnum, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
-from app.models.workspace import Workspace, WorkspaceMember
+
+if TYPE_CHECKING:
+    from app.models.workspace import Workspace, WorkspaceMember
 
 
 class UserRole(str, Enum):
