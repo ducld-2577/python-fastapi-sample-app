@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends
 
 from app.api.dependencies import get_auth_service
 from app.schemas.auth import RefreshTokenPayload, UserLoginPayload, UserRegisterPayload
+from app.schemas.user import UserOut
 from app.services.auth_service import AuthService
 
 router = APIRouter()
@@ -12,7 +13,7 @@ router = APIRouter()
 AuthServiceDep = Annotated[AuthService, Depends(get_auth_service)]
 
 
-@router.post("/register")
+@router.post("/register", response_model=UserOut, status_code=201)
 async def register(service: AuthServiceDep, payload: UserRegisterPayload):
     return await service.register(payload)
 

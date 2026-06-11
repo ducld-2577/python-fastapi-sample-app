@@ -26,4 +26,4 @@ async def update_user(
     service: UserServiceDep,
     token: Annotated[str, Depends(get_access_token)],
 ):
-    return service.update_user(payload.name, token)
+    return await service.update_user(payload.name, token)

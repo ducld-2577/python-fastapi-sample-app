@@ -62,7 +62,7 @@ source venv/bin/activate
 ### Buoc 2: Cai dependencies
 
 ```bash
-pip install fastapi uvicorn pydantic-settings sqlalchemy alembic pymysql aiomysql email-validator
+pip install -r requirements.txt
 ```
 
 ### Buoc 3: Tao file .env

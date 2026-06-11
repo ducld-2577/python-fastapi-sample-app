@@ -3,6 +3,7 @@ from typing import NoReturn
 from fastapi import HTTPException, status
 
 from app.core.security import decode_access_token
+from app.models import user
 from app.models.user import User
 from app.repositories.user import UserRepository
 
@@ -11,11 +12,10 @@ class UserService:
     def __init__(self, user_repository: UserRepository):
         self.user_repository = user_repository
 
-    async def update_user(self, name: str, token: str):
+    async def update_user(self, name: str, token: str) -> User:
         user = await self.get_current_user(token)
         user.full_name = name
-        await self.user_repository.update(user)
-        return {"id": user.id, "full_name": user.full_name}
+        return await self.user_repository.update(user)
 
     async def get_current_user(self, token: str) -> User:
         payload = decode_access_token(token)
