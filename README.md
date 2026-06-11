@@ -62,7 +62,7 @@ source venv/bin/activate
 ### Buoc 2: Cai dependencies
 
 ```bash
-pip install fastapi uvicorn pydantic-settings sqlalchemy alembic pymysql aiomysql
+pip install -r requirements.txt
 ```
 
 ### Buoc 3: Tao file .env
@@ -80,6 +80,11 @@ DEBUG=True
 
 API_V1_PREFIX=/api/v1
 DATABASE_URL=mysql+pymysql://taskuser:taskpass@127.0.0.1:3306/taskdb
+
+SECRET_KEY=your-secret-key
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+REFRESH_TOKEN_EXPIRE_DAYS=7
 ```
 
 ### Buoc 4: Chay MySQL bang Docker
@@ -135,6 +140,10 @@ URL mac dinh:
 
 ## 6. API hien co
 
+- POST /api/v1/auth/register
+- POST /api/v1/auth/login
+- POST /api/v1/auth/refresh
+- POST /api/v1/auth/logout
 - GET /api/v1/health/
 - GET /api/v1/users/me
 - PATCH /api/v1/users/me

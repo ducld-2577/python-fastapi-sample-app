@@ -1,6 +1,7 @@
 from typing import Generic, TypeVar, Type
-from sqlalchemy.ext.asyncio import AsyncSession
+
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 T = TypeVar("T")
 
@@ -20,6 +21,12 @@ class BaseRepository(Generic[T]):
         return result.scalars().all()
 
     async def create(self, obj: T):
+        self.session.add(obj)
+        await self.session.commit()
+        await self.session.refresh(obj)
+        return obj
+
+    async def update(self, obj: T):
         self.session.add(obj)
         await self.session.commit()
         await self.session.refresh(obj)
