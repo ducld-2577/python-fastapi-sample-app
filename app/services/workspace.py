@@ -15,6 +15,8 @@ class WorkspaceService:
     async def get_workspaces(self):
         # TODO: get user id from auth token
         owner_id = 1
+
+        # TODO: pagination
         return await self.workspace_repository.get_workspaces(owner_id)
 
     async def add_user_to_workspace(
