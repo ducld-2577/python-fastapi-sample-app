@@ -9,7 +9,7 @@ from app.schemas.workspace import (
     WorkspaceMemberAdd,
     WorkspaceOut,
 )
-from app.services.workspace_service import WorkspaceService
+from app.services.workspace import WorkspaceService
 
 router = APIRouter()
 

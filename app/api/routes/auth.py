@@ -3,9 +3,10 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 
 from app.api.dependencies import get_auth_service
+from app.core.middlewares import get_access_token
 from app.schemas.auth import RefreshTokenPayload, UserLoginPayload, UserRegisterPayload
 from app.schemas.user import UserOut
-from app.services.auth_service import AuthService
+from app.services.auth import AuthService
 
 router = APIRouter()
 
@@ -31,5 +32,7 @@ async def refresh_token(service: AuthServiceDep, payload: RefreshTokenPayload):
 @router.post("/logout")
 async def logout(
     service: AuthServiceDep,
+    token: Annotated[str, Depends(get_access_token)],
 ):
+    _ = token
     return await service.logout()

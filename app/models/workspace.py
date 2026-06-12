@@ -11,6 +11,7 @@ from app.db.base import Base
 
 if TYPE_CHECKING:
     from app.models.user import User
+    from app.models.project import Project
 
 
 class WorkspaceMemberRole(str, Enum):
@@ -35,6 +36,10 @@ class Workspace(Base):
 
     owner: Mapped["User"] = relationship(back_populates="owned_workspaces")
     memberships: Mapped[list["WorkspaceMember"]] = relationship(
+        back_populates="workspace",
+        cascade="all, delete-orphan",
+    )
+    projects: Mapped[list["Project"]] = relationship(
         back_populates="workspace",
         cascade="all, delete-orphan",
     )
