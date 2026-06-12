@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     debug: bool = False
     api_v1_prefix: str = "/api/v1"
     database_url: str = ""
+    redis_url: str = "redis://127.0.0.1:6379/0"
     secret_key: str = ""
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 30

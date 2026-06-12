@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 
-from app.api.routes import auth, users, health, workspace, project
+from app.api.routes import auth, task, users, health, workspace, project
 from app.core.config import get_settings
 from app.core.middlewares import get_access_token
 
@@ -26,5 +26,11 @@ api_router.include_router(
     project.router,
     prefix="/projects",
     tags=["Projects"],
+    dependencies=[Depends(get_access_token)],
+)
+api_router.include_router(
+    task.router,
+    prefix="/tasks",
+    tags=["Tasks"],
     dependencies=[Depends(get_access_token)],
 )

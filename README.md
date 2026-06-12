@@ -80,6 +80,7 @@ DEBUG=True
 
 API_V1_PREFIX=/api/v1
 DATABASE_URL=mysql+pymysql://taskuser:taskpass@127.0.0.1:3306/taskdb
+REDIS_URL=redis://127.0.0.1:6379/0
 
 SECRET_KEY=your-secret-key
 ALGORITHM=HS256
@@ -87,10 +88,10 @@ ACCESS_TOKEN_EXPIRE_MINUTES=30
 REFRESH_TOKEN_EXPIRE_DAYS=7
 ```
 
-### Buoc 4: Chay MySQL bang Docker
+### Buoc 4: Chay MySQL + Redis bang Docker
 
 ```bash
-docker compose up -d mysql
+docker compose up -d mysql redis
 ```
 
 ## 4. Migration voi Alembic
