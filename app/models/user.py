@@ -11,6 +11,7 @@ from app.db.base import Base
 
 if TYPE_CHECKING:
     from app.models.workspace import Workspace, WorkspaceMember
+    from app.models.task import Task
 
 
 class UserRole(str, Enum):
@@ -44,4 +45,12 @@ class User(Base):
     workspace_memberships: Mapped[list["WorkspaceMember"]] = relationship(
         back_populates="user",
         cascade="all, delete-orphan",
+    )
+    assigned_tasks: Mapped[list["Task"]] = relationship(
+        back_populates="assignee",
+        foreign_keys="Task.assignee_id",
+    )
+    created_tasks: Mapped[list["Task"]] = relationship(
+        back_populates="creator",
+        foreign_keys="Task.created_by",
     )
