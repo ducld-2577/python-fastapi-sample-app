@@ -28,7 +28,7 @@ class Project(Base):
         index=True,
     )
     name: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
-    description: Mapped[str] = mapped_column(String(500), nullable=True)
+    description: Mapped[str | None] = mapped_column(String(500), nullable=True)
     status: Mapped[ProjectStatus] = mapped_column(
         SAEnum(ProjectStatus, name="project_status"),
         nullable=False,

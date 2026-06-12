@@ -14,20 +14,20 @@ router = APIRouter()
 ProjectServiceDep = Annotated[ProjectService, Depends(get_project_service)]
 
 
-@router.get("/{project_id}", response_model=ProjectRead)
-async def get_project(
-    project_id: int,
-    service: ProjectServiceDep,
-):
-    return await service.get_project(project_id)
-
-
 @router.get("/workspace/{workspace_id}", response_model=list[ProjectRead])
 async def get_projects_by_workspace(
     workspace_id: int,
     service: ProjectServiceDep,
 ):
     return await service.get_projects_by_workspace(workspace_id)
+
+
+@router.get("/{project_id}", response_model=ProjectRead)
+async def get_project(
+    project_id: int,
+    service: ProjectServiceDep,
+):
+    return await service.get_project(project_id)
 
 
 @router.delete("/{project_id}")

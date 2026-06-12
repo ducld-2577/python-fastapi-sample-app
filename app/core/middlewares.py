@@ -58,6 +58,8 @@ async def get_current_user(
             detail="User account is inactive",
         )
 
+    request.state.current_user = user
+
     return user
 
 
@@ -73,13 +75,13 @@ async def require_admin(
 
 
 async def require_admin_or_owner(
-    current_user: User,
+    current_user: Annotated[User, Depends(get_current_user)],
     resource_owner_id: Optional[int] = None,
 ) -> User:
     if current_user.role == UserRole.ADMIN:
         return current_user
 
-    if resource_owner_id and current_user.id == resource_owner_id:
+    if resource_owner_id is not None and current_user.id == resource_owner_id:
         return current_user
 
     raise HTTPException(

@@ -56,7 +56,7 @@ class ProjectService:
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Project not found",
             )
-        await self.project_repository.delete(project_id)
+        await self.project_repository.delete(project)
         return {"message": f"Project {project_id} deleted successfully"}
 
     async def update_project(self, project_id, payload: ProjectUpdate):
