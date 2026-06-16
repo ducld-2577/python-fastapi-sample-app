@@ -1,7 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
-from app.models.project import ProjectStatus
-from app.models.task import TaskPriority
+from app.models.task import TaskPriority, TaskStatus
 
 
 class TaskCreate(BaseModel):
@@ -9,7 +8,7 @@ class TaskCreate(BaseModel):
     assignee_id: int | None = None
     title: str = Field(min_length=1, max_length=255)
     description: str | None = Field(default=None)
-    status: ProjectStatus = ProjectStatus.ACTIVE
+    status: TaskStatus = TaskStatus.TODO
     priority: TaskPriority = TaskPriority.MEDIUM
     due_date: datetime | None = None
 
@@ -24,7 +23,7 @@ class TaskAssign(BaseModel):
 
 
 class TaskUpdateStatus(BaseModel):
-    status: ProjectStatus
+    status: TaskStatus
 
 
 class TaskUpdatePriority(BaseModel):
@@ -37,7 +36,7 @@ class TaskRead(BaseModel):
     assignee_id: int | None
     title: str
     description: str | None
-    status: ProjectStatus
+    status: TaskStatus
     priority: TaskPriority
     due_date: datetime | None
     created_at: datetime

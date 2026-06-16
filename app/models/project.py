@@ -12,6 +12,7 @@ from app.db.base import Base
 if TYPE_CHECKING:
     from app.models.workspace import Workspace
     from app.models.task import Task
+    from app.models.label import Label
 
 
 class ProjectStatus(str, Enum):
@@ -41,6 +42,10 @@ class Project(Base):
 
     workspace: Mapped["Workspace"] = relationship(back_populates="projects")
     tasks: Mapped[list["Task"]] = relationship(
+        back_populates="project",
+        cascade="all, delete-orphan",
+    )
+    labels: Mapped[list["Label"]] = relationship(
         back_populates="project",
         cascade="all, delete-orphan",
     )

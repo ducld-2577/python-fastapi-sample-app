@@ -12,6 +12,7 @@ from app.db.base import Base
 if TYPE_CHECKING:
     from app.models.project import Project
     from app.models.user import User
+    from app.models.label import Label
 
 
 class TaskStatus(str, Enum):
@@ -70,4 +71,8 @@ class Task(Base):
     )
     creator: Mapped["User | None"] = relationship(
         foreign_keys=[created_by],
+    )
+    labels: Mapped[list["Label"]] = relationship(
+        secondary="task_labels",
+        back_populates="tasks",
     )
