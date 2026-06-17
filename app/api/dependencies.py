@@ -1,7 +1,9 @@
 from typing import Annotated
 
 from fastapi import Depends, Request
+from app.repositories.comment import CommentRepository
 from app.repositories.task import TaskRepository
+from app.services.comment import CommentService
 from app.services.label import LabelService
 from app.services.task import TaskService
 from redis.asyncio import Redis
@@ -46,6 +48,10 @@ def get_task_repository(db: DbSession) -> TaskRepository:
 
 def get_label_repository(db: DbSession) -> LabelRepository:
     return LabelRepository(db)
+
+
+def get_comment_repository(db: DbSession) -> CommentRepository:
+    return CommentRepository(db)
 
 
 def get_auth_service(
@@ -100,6 +106,18 @@ def get_label_service(
         label_repository,
         task_repository,
         project_repository,
+    )
+
+
+def get_comment_service(
+    comment_repository: Annotated[CommentRepository, Depends(get_comment_repository)],
+    task_repository: Annotated[TaskRepository, Depends(get_task_repository)],
+    user_repository: Annotated[UserRepository, Depends(get_user_repository)],
+) -> CommentService:
+    return CommentService(
+        comment_repository,
+        task_repository,
+        user_repository,
     )
 
 
