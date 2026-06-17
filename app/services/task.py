@@ -142,9 +142,7 @@ class TaskService:
         # Invalidate cache
         await self._invalidate_task_cache(task_id)
 
-        return {
-            "message": f"Task {task_id} status updated to {TaskUpdateStatus.status}"
-        }
+        return await self.task_repository.get(task_id)
 
     async def update_task_priority(self, task_id, TaskUpdatePriority):
         task = await self.task_repository.get(task_id)
@@ -160,9 +158,7 @@ class TaskService:
         # Invalidate cache
         await self._invalidate_task_cache(task_id)
 
-        return {
-            "message": f"Task {task_id} priority updated to {TaskUpdatePriority.priority}"
-        }
+        return await self.task_repository.get(task_id)
 
     async def assign_task(self, task_id, TaskAssign):
         task = await self.task_repository.get(task_id)
@@ -184,7 +180,7 @@ class TaskService:
         # Invalidate cache
         await self._invalidate_task_cache(task_id)
 
-        return {"message": f"Task {task_id} assigned to user {TaskAssign.assignee_id}"}
+        return await self.task_repository.get(task_id)
 
     async def get_task(self, task_id):
         cache_key = self._get_task_cache_key(task_id)
@@ -215,7 +211,7 @@ class TaskService:
         # Invalidate cache
         await self._invalidate_task_cache(task_id)
 
-        return {"message": f"Task {task_id} deleted successfully"}
+        return await self.task_repository.get(task_id)
 
     async def update_task(self, task_id, payload: TaskUpdate):
         task = await self.task_repository.get(task_id)
@@ -226,9 +222,9 @@ class TaskService:
             )
         task.title = payload.title
         task.description = payload.description
-        result = await self.task_repository.update(task)
+        await self.task_repository.update(task)
 
         # Invalidate cache
         await self._invalidate_task_cache(task_id)
 
-        return result
+        return await self.task_repository.get(task_id)

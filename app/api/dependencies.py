@@ -20,7 +20,6 @@ from app.services.project import ProjectService
 from app.services.user import UserService
 from app.services.workspace import WorkspaceService
 from app.repositories.label import LabelRepository
-from app.services.label import LabelService
 
 DbSession = Annotated[AsyncSession, Depends(get_db)]
 

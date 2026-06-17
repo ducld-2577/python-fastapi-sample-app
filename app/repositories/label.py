@@ -12,8 +12,6 @@ class LabelRepository(BaseRepository):
         limit: int = 10,
         offset: int = 0,
     ):
-        from sqlalchemy import select
-
         result = await self.session.execute(
             select(Label).order_by(Label.id.desc()).limit(limit).offset(offset)
         )

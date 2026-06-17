@@ -5,7 +5,7 @@ from app.models.label import Label
 from app.repositories.label import LabelRepository
 from app.repositories.project import ProjectRepository
 from app.repositories.task import TaskRepository
-from app.schemas.label import LabelAssignTask, LabelAssignTask, LabelCreate, LabelUpdate
+from app.schemas.label import LabelAssignTask, LabelCreate, LabelUpdate
 
 
 class LabelService:

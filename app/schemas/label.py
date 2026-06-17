@@ -1,7 +1,4 @@
-from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
-from app.models.project import ProjectStatus
-from app.models.task import TaskPriority
 
 
 class LabelCreate(BaseModel):
@@ -11,6 +8,7 @@ class LabelCreate(BaseModel):
 
     model_config = ConfigDict(
         extra="forbid",
+        from_attributes=True,
     )
 
 
@@ -22,6 +20,7 @@ class LabelUpdate(BaseModel):
 
     model_config = ConfigDict(
         extra="forbid",
+        from_attributes=True,
     )
 
 
@@ -31,4 +30,5 @@ class LabelAssignTask(BaseModel):
 
     model_config = ConfigDict(
         extra="forbid",
+        from_attributes=True,
     )
