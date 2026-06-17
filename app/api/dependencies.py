@@ -2,10 +2,12 @@ from typing import Annotated
 
 from fastapi import Depends, Request
 from app.repositories.task import TaskRepository
+from app.services.label import LabelService
 from app.services.task import TaskService
 from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.config import get_settings
 from app.core.middlewares import get_current_user, require_admin
 from app.db.redis import get_redis_from_request
 from app.db.session import get_db
@@ -17,6 +19,7 @@ from app.services.auth import AuthService
 from app.services.project import ProjectService
 from app.services.user import UserService
 from app.services.workspace import WorkspaceService
+from app.repositories.label import LabelRepository
 
 DbSession = Annotated[AsyncSession, Depends(get_db)]
 
@@ -39,6 +42,10 @@ def get_project_repository(db: DbSession) -> ProjectRepository:
 
 def get_task_repository(db: DbSession) -> TaskRepository:
     return TaskRepository(db)
+
+
+def get_label_repository(db: DbSession) -> LabelRepository:
+    return LabelRepository(db)
 
 
 def get_auth_service(
@@ -72,10 +79,26 @@ def get_task_service(
     task_repository: Annotated[TaskRepository, Depends(get_task_repository)],
     project_repository: Annotated[ProjectRepository, Depends(get_project_repository)],
     user_repository: Annotated[UserRepository, Depends(get_user_repository)],
+    redis_client: Annotated[Redis, Depends(get_redis)],
+    settings: Annotated[object, Depends(get_settings)],
 ) -> TaskService:
     return TaskService(
         task_repository,
         user_repository,
+        project_repository,
+        redis_client,
+        settings,
+    )
+
+
+def get_label_service(
+    label_repository: Annotated[LabelRepository, Depends(get_label_repository)],
+    task_repository: Annotated[TaskRepository, Depends(get_task_repository)],
+    project_repository: Annotated[ProjectRepository, Depends(get_project_repository)],
+) -> LabelService:
+    return LabelService(
+        label_repository,
+        task_repository,
         project_repository,
     )
 

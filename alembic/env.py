@@ -8,6 +8,9 @@ from app.core.config import get_settings
 from app.db.base import Base
 import app.models.user  # noqa: F401
 import app.models.workspace  # noqa: F401
+import app.models.project  # noqa: F401
+import app.models.task  # noqa: F401
+import app.models.label  # noqa: F401
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

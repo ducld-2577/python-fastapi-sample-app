@@ -40,14 +40,25 @@ class ProjectService:
             )
         return project
 
-    async def get_projects_by_workspace(self, workspace_id):
+    async def get_projects_by_workspace(
+        self,
+        workspace_id: int,
+        page: int = 1,
+        page_size: int = 10,
+    ):
         workspace = await self.workspace_repository.get_by_id(workspace_id)
         if not workspace:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Workspace not found",
             )
-        return await self.project_repository.get_projects_by_workspace(workspace_id)
+
+        offset = (page - 1) * page_size
+        return await self.project_repository.get_projects_by_workspace(
+            workspace_id=workspace_id,
+            limit=page_size,
+            offset=offset,
+        )
 
     async def delete_project(self, project_id):
         project = await self.project_repository.get(project_id)

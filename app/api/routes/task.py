@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 
 from app.api.dependencies import (
     get_task_service,
@@ -25,16 +25,28 @@ TaskServiceDep = Annotated[TaskService, Depends(get_task_service)]
 async def get_tasks_by_project(
     project_id: int,
     service: TaskServiceDep,
+    page: int = Query(default=1, ge=1),
+    page_size: int = Query(default=10, ge=1, le=100),
 ):
-    return await service.get_tasks_by_project(project_id)
+    return await service.get_tasks_by_project(
+        project_id=project_id,
+        page=page,
+        page_size=page_size,
+    )
 
 
 @router.get("/assignee/{assignee_id}", response_model=list[TaskRead])
 async def get_tasks_by_assignee(
     assignee_id: int,
     service: TaskServiceDep,
+    page: int = Query(default=1, ge=1),
+    page_size: int = Query(default=10, ge=1, le=100),
 ):
-    return await service.get_tasks_by_assignee(assignee_id)
+    return await service.get_tasks_by_assignee(
+        assignee_id=assignee_id,
+        page=page,
+        page_size=page_size,
+    )
 
 
 @router.get("/{task_id}", response_model=TaskRead)

@@ -1,5 +1,6 @@
 from app.repositories.base import BaseRepository
 from app.models.user import User
+from sqlalchemy import select
 
 
 class UserRepository(BaseRepository[User]):
@@ -7,8 +8,6 @@ class UserRepository(BaseRepository[User]):
         super().__init__(User, session)
 
     async def get_by_email(self, email: str):
-        from sqlalchemy import select
-
         result = await self.session.execute(select(User).where(User.email == email))
         return result.scalar_one_or_none()
 

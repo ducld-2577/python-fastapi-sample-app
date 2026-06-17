@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 
 from app.api.dependencies import (
     get_project_service,
@@ -18,8 +18,14 @@ ProjectServiceDep = Annotated[ProjectService, Depends(get_project_service)]
 async def get_projects_by_workspace(
     workspace_id: int,
     service: ProjectServiceDep,
+    page: int = Query(default=1, ge=1),
+    page_size: int = Query(default=10, ge=1, le=100),
 ):
-    return await service.get_projects_by_workspace(workspace_id)
+    return await service.get_projects_by_workspace(
+        workspace_id=workspace_id,
+        page=page,
+        page_size=page_size,
+    )
 
 
 @router.get("/{project_id}", response_model=ProjectRead)
