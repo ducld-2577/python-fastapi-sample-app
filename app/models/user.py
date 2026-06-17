@@ -12,6 +12,7 @@ from app.db.base import Base
 if TYPE_CHECKING:
     from app.models.workspace import Workspace, WorkspaceMember
     from app.models.task import Task
+    from app.models.comment import Comment
 
 
 class UserRole(str, Enum):
@@ -53,4 +54,8 @@ class User(Base):
     created_tasks: Mapped[list["Task"]] = relationship(
         back_populates="creator",
         foreign_keys="Task.created_by",
+    )
+    comments: Mapped[list["Comment"]] = relationship(
+        back_populates="author",
+        cascade="all, delete-orphan",
     )

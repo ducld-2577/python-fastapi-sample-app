@@ -11,6 +11,7 @@ import app.models.workspace  # noqa: F401
 import app.models.project  # noqa: F401
 import app.models.task  # noqa: F401
 import app.models.label  # noqa: F401
+import app.models.comment  # noqa: F401
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

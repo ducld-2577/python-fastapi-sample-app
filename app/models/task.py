@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     from app.models.project import Project
     from app.models.user import User
     from app.models.label import Label
+    from app.models.comment import Comment
 
 
 class TaskStatus(str, Enum):
@@ -75,4 +76,8 @@ class Task(Base):
     labels: Mapped[list["Label"]] = relationship(
         secondary="task_labels",
         back_populates="tasks",
+    )
+    comments: Mapped[list["Comment"]] = relationship(
+        back_populates="task",
+        cascade="all, delete-orphan",
     )
